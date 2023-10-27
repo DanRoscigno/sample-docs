@@ -31,5 +31,20 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: docusaurus-mdx-checker
+        if: always()
+        run: |
+          npx docusaurus-mdx-checker -c docs
+
+      - name: link check
+        if: always()
+        uses: lycheeverse/lychee-action@v1.8.0
+        with:
+          fail: true
+          args: >
+            --config docs/lychee.toml
+            --offline "docs/**/*.md"
+
       - run: yarn install --frozen-lockfile
       - run: yarn build
