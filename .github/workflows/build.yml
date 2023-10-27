@@ -1,0 +1,31 @@
+name: testbuild document site
+
+on: [push]
+
+jobs:
+  PR_check:
+    runs-on: ubuntu-latest
+    #defaults:
+      #run:
+        #working-directory: ./doctest
+    steps:
+      # This first checkout gets the test setup
+      # which is basically a default Docusaurus
+      # build with the broken links checks set
+      # to throw an exception.
+      - uses: actions/checkout@v4
+        with:
+          repository: 'DanRoscigno/docusaurus-build'
+
+      # this second checkout gets the docs from this
+      # repo and checks them out to a dir named:
+      # `docs`
+      - uses: actions/checkout@v4
+        with:
+          path: 'docs'
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
