@@ -24,6 +24,10 @@ jobs:
         with:
           path: 'docs'
 
+      # The README file has some sample markdown that fails
+      # link checking
+      - run: rm README.md
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
